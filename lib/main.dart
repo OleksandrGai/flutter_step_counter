@@ -3,9 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_step_counter/auth/auth_bloc/auth_bloc.dart';
 import 'package:flutter_step_counter/auth/auth_bloc/auth_state.dart';
+import 'package:flutter_step_counter/auth/logout_bloc/logout_bloc.dart';
 import 'package:flutter_step_counter/repositories/user_repository.dart';
 import 'package:flutter_step_counter/screens/sing_in_screen/login_screen.dart';
-import 'package:flutter_step_counter/screens/testScreens/splash_screen.dart';
+import 'package:flutter_step_counter/screens/testScreens/homeScreen.dart';
 
 import 'auth/login_bloc/login_bloc.dart';
 import 'auth/register_bloc/register_bloc.dart';
@@ -34,6 +35,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => LoginBloc(repository),
         ),
+        BlocProvider(
+          create: (context) => LogoutBloc(repository),
+        ),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

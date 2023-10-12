@@ -7,19 +7,19 @@ import 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository userRepository;
 
-  LoginBloc(this.userRepository) : super(LoginInitial());
+  LoginBloc(this.userRepository) : super(LoginInitial()) {
+    on<LoginEvent>(mapLoginEventToState);
+  }
 
-  @override
-  Stream<LoginState> mapEventToState(
-    LoginEvent event,
-  ) async* {
+  Future<void> mapLoginEventToState(
+      LoginEvent event, Emitter<LoginState> emitter) async {
     if (event is SingInButtonPressed) {
-      yield LoginLoading();
+      emit(LoginLoading());
       try {
         var user = await userRepository.singIn(event.email, event.password);
-        yield LoginSucceed(user: user!);
+        emit(LoginSucceed(user: user!));
       } catch (e) {
-        yield LoginFailed(message: e.toString());
+        emit(LoginFailed(message: e.toString()));
       }
     }
   }

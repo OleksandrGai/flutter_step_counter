@@ -7,23 +7,23 @@ import 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   UserRepository userRepository;
 
-  AuthBloc({required this.userRepository}) : super(AuthInitial());
+  AuthBloc({required this.userRepository}) : super(AuthInitial()) {
+    on<AuthEvent>(mapAuthEventToState);
+  }
 
-  @override
-  Stream<AuthState> mapEventToState(
-    AuthEvent event,
-  ) async* {
+  Future<void> mapAuthEventToState(
+      AuthEvent event, Emitter<AuthState> emitter) async {
     if (event is AppLoaded) {
       try {
         var isSignedIn = await userRepository.isSignedIn();
-        if(isSignedIn){
+        if (isSignedIn) {
           var user = await userRepository.getCurrentUser();
-          yield AuthenticateState(user: user!);
+          emit(AuthenticateState(user: user!));
         } else {
-          yield UnAuthenticateState();
+          emit(UnAuthenticateState());
         }
       } catch (e) {
-        yield UnAuthenticateState();
+        emit(UnAuthenticateState());
       }
     }
   }

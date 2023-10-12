@@ -27,7 +27,7 @@ class UserRepository{
 
   Future<bool> isSignedIn() async{
    var currentUser = firebaseAuth.currentUser;
-   return currentUser != null;
+   return await currentUser != null;
   }
   Future<User?> getCurrentUser() async{
    return await firebaseAuth.currentUser;

@@ -7,10 +7,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   UserRepository userRepository;
 
   RegisterBloc(this.userRepository) : super(RegisterInitial()) {
-    on<RegisterEvent>(mapEventToState);
+    on<RegisterEvent>(mapRegisterEventToState);
   }
 
-  Future<void> mapEventToState(
+  Future<void> mapRegisterEventToState(
       RegisterEvent event, Emitter<RegisterState> emit) async {
     if (event is SingUpButtonPressed) {
       emit(RegisterLoading());
