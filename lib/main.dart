@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
               return HomeScreen();
             }
 
-            return LoginPage();
+            return HomeScreen();
           },
         ),
       ),

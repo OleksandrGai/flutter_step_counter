@@ -6,6 +6,7 @@ import 'package:flutter_step_counter/screens/sing_in_screen/login_screen.dart';
 
 import '../../auth/logout_bloc/logout_event.dart';
 import 'package:health/health.dart';
+import 'bar_graph_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,34 +16,94 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _SplashScreenState2 extends State<HomeScreen> {
+  final now = DateTime.now();
+  HealthFactory healthFactory = HealthFactory();
+  int _firstSteps = 0;
+  int _secondSteps = 0;
+  int _thirdSteps = 0;
+  int _fourthSteps = 0;
+
   @override
   void initState() {
     super.initState();
-    fetchStepData();
+    fetchStepData(
+      startTime: DateTime(
+          now.year,
+          now.month,
+          now.day,
+          const TimeOfDay(hour: 00, minute: 00).hour,
+          const TimeOfDay(hour: 00, minute: 00).minute),
+      endTime: DateTime(
+          now.year,
+          now.month,
+          now.day,
+          const TimeOfDay(hour: 05, minute: 59).hour,
+          const TimeOfDay(hour: 05, minute: 59).minute),
+    ).then((value) => _firstSteps = value);
+    fetchStepData(
+      startTime: DateTime(
+          now.year,
+          now.month,
+          now.day,
+          const TimeOfDay(hour: 06, minute: 00).hour,
+          const TimeOfDay(hour: 06, minute: 00).minute),
+      endTime: DateTime(
+          now.year,
+          now.month,
+          now.day,
+          const TimeOfDay(hour: 11, minute: 59).hour,
+          const TimeOfDay(hour: 11, minute: 59).minute),
+    ).then((value) => _secondSteps = value);
+    fetchStepData(
+      startTime: DateTime(
+          now.year,
+          now.month,
+          now.day,
+          const TimeOfDay(hour: 12, minute: 00).hour,
+          const TimeOfDay(hour: 12, minute: 00).minute),
+      endTime: DateTime(
+          now.year,
+          now.month,
+          now.day,
+          const TimeOfDay(hour: 17, minute: 59).hour,
+          const TimeOfDay(hour: 17, minute: 59).minute),
+    ).then((value) => _thirdSteps = value);
+    fetchStepData(
+      startTime: DateTime(
+          now.year,
+          now.month,
+          now.day,
+          const TimeOfDay(hour: 18, minute: 00).hour,
+          const TimeOfDay(hour: 18, minute: 00).minute),
+      endTime: DateTime(
+          now.year,
+          now.month,
+          now.day,
+          const TimeOfDay(hour: 23, minute: 59).hour,
+          const TimeOfDay(hour: 23, minute: 59).minute),
+    ).then((value) => _fourthSteps = value);
   }
-  int _getSteps = 0;
-  HealthFactory healthFactory = HealthFactory();
 
-  Future fetchStepData() async {
+  Future<int> fetchStepData({
+    List<HealthDataType> types = const [HealthDataType.STEPS],
+    List<HealthDataAccess> permission = const [HealthDataAccess.READ],
+    required DateTime startTime,
+    required DateTime endTime,
+  }) async {
     int? step;
-    var types = [HealthDataType.STEPS];
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
-    var permission = [HealthDataAccess.READ];
-    bool requested = await healthFactory
-        .requestAuthorization(types,permissions: permission);
+    bool requested = await healthFactory.requestAuthorization(types,
+        permissions: permission);
     if (requested) {
       try {
-        step = await healthFactory.getTotalStepsInInterval(midnight, now);
+        step = await healthFactory.getTotalStepsInInterval(startTime, endTime);
       } catch (e) {
         print(e);
       }
       print('Total number os steps: $step');
-      setState(() {
-        _getSteps = (step == null) ? 0 : step;
-      });
-    } else{
+      return step!;
+    } else {
       print('error some');
+      return 0;
     }
   }
 
@@ -61,7 +122,19 @@ class _SplashScreenState2 extends State<HomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(_getSteps.toString(),style: TextStyle(fontSize: 45),),
+                SizedBox(
+                    height: 400,
+                    child: BarGraph(
+                      firstStepCount: _firstSteps,
+                      secondStepCount: _secondSteps,
+                      thirdStepCount: _thirdSteps,
+                      fourthStepCount: _fourthSteps,
+                    )),
+                Text(
+                  (_firstSteps + _secondSteps + _thirdSteps + _fourthSteps)
+                      .toString(),
+                  style: TextStyle(fontSize: 45),
+                ),
                 TextButton(
                     onPressed: () {
                       context.read<LogoutBloc>().add(LogoutButtonPressed());
