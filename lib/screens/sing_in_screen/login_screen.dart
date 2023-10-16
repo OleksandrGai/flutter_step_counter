@@ -7,7 +7,7 @@ import 'package:flutter_step_counter/auth/register_bloc/register_bloc.dart';
 
 import '../../auth/login_bloc/login_event.dart';
 import '../sing_up_screen/singup_screen.dart';
-import '../testScreens/homeScreen.dart';
+import '../homeScreen/homeScreen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_step_counter/auth/register_bloc/register_bloc.dart';
 import 'package:flutter_step_counter/auth/register_bloc/register_state.dart';
 import 'package:flutter_step_counter/screens/sing_in_screen/login_screen.dart';
-import 'package:flutter_step_counter/screens/testScreens/homeScreen.dart';
+import 'package:flutter_step_counter/screens/homeScreen/homeScreen.dart';
 
 import '../../auth/register_bloc/register_event.dart';
 

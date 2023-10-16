@@ -6,7 +6,7 @@ import 'package:flutter_step_counter/auth/auth_bloc/auth_state.dart';
 import 'package:flutter_step_counter/auth/logout_bloc/logout_bloc.dart';
 import 'package:flutter_step_counter/repositories/user_repository.dart';
 import 'package:flutter_step_counter/screens/sing_in_screen/login_screen.dart';
-import 'package:flutter_step_counter/screens/testScreens/homeScreen.dart';
+import 'package:flutter_step_counter/screens/homeScreen/homeScreen.dart';
 
 import 'auth/login_bloc/login_bloc.dart';
 import 'auth/register_bloc/register_bloc.dart';
