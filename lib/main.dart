@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_step_counter/auth/auth_bloc/auth_bloc.dart';
 import 'package:flutter_step_counter/auth/auth_bloc/auth_state.dart';
 import 'package:flutter_step_counter/auth/logout_bloc/logout_bloc.dart';
+import 'package:flutter_step_counter/repositories/step_repository.dart';
 import 'package:flutter_step_counter/repositories/user_repository.dart';
 import 'package:flutter_step_counter/screens/sing_in_screen/login_screen.dart';
 import 'package:flutter_step_counter/screens/homeScreen/homeScreen.dart';
+import 'package:flutter_step_counter/step/step_bloc/step_bloc.dart';
 
 import 'auth/login_bloc/login_bloc.dart';
 import 'auth/register_bloc/register_bloc.dart';
@@ -19,6 +21,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final UserRepository repository = UserRepository();
+  final StepRepository stepRepository = StepRepository();
 
   MyApp({super.key});
 
@@ -38,7 +41,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => LogoutBloc(repository),
         ),
-
+        BlocProvider(
+          create: (context) => StepsCountBloc(stepRepository),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

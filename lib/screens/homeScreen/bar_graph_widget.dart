@@ -27,13 +27,14 @@ class BarDetails extends StatelessWidget {
   });
 
   List<int> stepCount;
+  final now = DateTime.now();
 
   BarTouchData get barTouchData => BarTouchData(
-        enabled: false,
+        enabled: true,
         touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Colors.transparent,
+          tooltipBgColor: Colors.grey[100],
           tooltipPadding: EdgeInsets.zero,
-          tooltipMargin: 8,
+          tooltipMargin: 10,
           getTooltipItem: (
             BarChartGroupData group,
             int groupIndex,
@@ -41,8 +42,31 @@ class BarDetails extends StatelessWidget {
             int rodIndex,
           ) {
             return BarTooltipItem(
-              rod.toY.round().toString(),
-              const TextStyle(),
+              'Total\n',
+              const TextStyle(
+                fontSize: 17,
+              ),
+              textAlign: TextAlign.left,
+              children: [
+                TextSpan(
+                  text: '${rod.toY.round()} ',
+                  style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepOrange),
+                ),
+                const TextSpan(
+                  text: 'steps\n',
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      '${now.day}.${now.month}.,${group.x.toString()}-${(group.x + 1).toString()}',
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ],
             );
           },
         ),
@@ -54,9 +78,9 @@ class BarDetails extends StatelessWidget {
     );
     String text;
     var mapTime = {
-      0: '00',
+      0: '00-AM',
       6: '06',
-      12: '12',
+      12: '12-PM',
       18: '18',
     };
     text = mapTime[value.toInt()] ?? ' ';
@@ -106,9 +130,8 @@ class BarDetails extends StatelessWidget {
       }
       return maxValue ?? 0;
     }
-
-//TODO: BarTouchData with bloc
     return BarChart(BarChartData(
+        barTouchData: barTouchData,
         titlesData: titlesData,
         maxY: (maxY() + 400).toDouble(),
         minY: 0,

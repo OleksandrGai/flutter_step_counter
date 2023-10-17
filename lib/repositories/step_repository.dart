@@ -2,7 +2,6 @@ import 'package:health/health.dart';
 
 class StepRepository {
   HealthFactory healthFactory = HealthFactory();
-  final _now = DateTime.now();
 
   StepRepository();
 
@@ -21,7 +20,7 @@ class StepRepository {
       } catch (e) {
         print(e);
       }
-      print('Total number os steps: $step');
+      // print('Total number os steps: $step');
       return step ?? 0;
     } else {
       //   print('error some');
@@ -31,13 +30,22 @@ class StepRepository {
 
   Future<List<int>> initStepData() async {
     List<int> step = [];
+    final now = DateTime.now();
     for (var hour = 0; hour < 24; hour++) {
-      DateTime startTime =
-          DateTime(_now.year, _now.month, _now.day, hour, 00, 00);
-      DateTime endTime =
-          DateTime(_now.year, _now.month, _now.day, hour, 59, 59);
+      DateTime startTime = DateTime(now.year, now.month, now.day, hour, 00, 00);
+      DateTime endTime = DateTime(now.year, now.month, now.day, hour, 59, 59);
       step.add(await _fetchStepData(startTime: startTime, endTime: endTime));
     }
     return step;
+  }
+
+  Future<int> totalSteps() async {
+    List<int> steps;
+    int totalSteps = 0;
+    steps = await initStepData();
+    for (int step in steps) {
+      totalSteps += step;
+    }
+    return totalSteps;
   }
 }
