@@ -50,6 +50,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(),
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
+            // if (state is AuthInitial) {
+            //   return LoginPage();
+            // }
             if (state is UnAuthenticateState) {
               return LoginPage();
             } else if (state is AuthenticateState) {
