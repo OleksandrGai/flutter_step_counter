@@ -14,6 +14,8 @@ class LoginPage extends StatefulWidget {
     super.key,
   });
 
+  static const String routeName = '/';
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }

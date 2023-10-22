@@ -8,22 +8,24 @@ import 'package:flutter_step_counter/repositories/step_repository.dart';
 import 'package:flutter_step_counter/repositories/user_repository.dart';
 import 'package:flutter_step_counter/screens/sing_in_screen/login_screen.dart';
 import 'package:flutter_step_counter/screens/homeScreen/homeScreen.dart';
+import 'package:flutter_step_counter/screens/sing_up_screen/singup_screen.dart';
 import 'package:flutter_step_counter/step/step_bloc/step_bloc.dart';
 
 import 'auth/login_bloc/login_bloc.dart';
 import 'auth/register_bloc/register_bloc.dart';
+import 'navigation/navigation_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   final UserRepository repository = UserRepository();
   final StepRepository stepRepository = StepRepository();
 
-  MyApp({super.key});
+  App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,16 +52,16 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(),
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
-            // if (state is AuthInitial) {
-            //   return LoginPage();
-            // }
+            if (state is AuthInitial) {
+              return const LoginPage();
+            }
             if (state is UnAuthenticateState) {
-              return LoginPage();
+              return const LoginPage();
             } else if (state is AuthenticateState) {
-              return HomeScreen();
+              return const MainBottomBarNavigation();
             }
 
-            return HomeScreen();
+            return const LoginPage();
           },
         ),
       ),

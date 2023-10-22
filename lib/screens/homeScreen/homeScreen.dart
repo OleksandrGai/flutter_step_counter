@@ -7,12 +7,12 @@ import 'package:flutter_step_counter/step/step_bloc/step_bloc.dart';
 
 import '../../auth/logout_bloc/logout_event.dart';
 import '../../repositories/step_repository.dart';
-import '../achievement_screen/achievement_screen.dart';
 import 'bar_graph_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  static const String routeName = '/home';
 
   @override
   State<HomeScreen> createState() => _SplashScreenState2();
@@ -27,8 +27,11 @@ class _SplashScreenState2 extends State<HomeScreen> {
     return BlocListener<LogoutBloc, LogoutState>(
       listener: (context, state) {
         if (state is LogoutSucceed) {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const LoginPage()));
+          Navigator.of(context,rootNavigator: true
+          ).pushReplacement(MaterialPageRoute(
+            builder: (_) => LoginPage(),
+          ),
+          );
         }
       },
       child: Scaffold(
@@ -99,7 +102,8 @@ class LayoutWidgetStepsBloc extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10,bottom: 10,left: 25,right: 25),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, left: 25, right: 25),
                   child: CircularProgressIndicator(
                     backgroundColor: Colors.white,
                     color: Colors.deepOrange,
@@ -142,22 +146,14 @@ class LayoutWidgetStepsBloc extends StatelessWidget {
                           style: TextStyle(fontSize: 20, color: Colors.black),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const AchievementScreen()));
-                        },
-                        child: RichText(
-                          text: const TextSpan(
-                            text: '2000',
-                            style: const TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 21,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepOrange,
-                            ),
+                      RichText(
+                        text: const TextSpan(
+                          text: '2000',
+                          style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepOrange,
                           ),
                         ),
                       ),

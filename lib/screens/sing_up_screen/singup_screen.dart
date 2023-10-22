@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_step_counter/auth/register_bloc/register_bloc.dart';
 import 'package:flutter_step_counter/auth/register_bloc/register_state.dart';
 import 'package:flutter_step_counter/screens/sing_in_screen/login_screen.dart';
-import 'package:flutter_step_counter/screens/homeScreen/homeScreen.dart';
 
 import '../../auth/register_bloc/register_event.dart';
+import '../../navigation/navigation_bar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
+
+  static const String routeName = '/singUp';
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -36,8 +38,10 @@ class _RegisterPageState extends State<RegisterPage> {
               child: BlocListener<RegisterBloc, RegisterState>(
                 listener: (context, state) {
                   if (state is RegisterSucceed) {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (_) => const HomeScreen()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const MainBottomBarNavigation()));
                   }
                 },
                 child: BlocBuilder<RegisterBloc, RegisterState>(
